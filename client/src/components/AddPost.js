@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const initialUser = {
-  name: '',
-  bio: ''
+  title: '',
+  contents: ''
 }
 
 function AddPost(props) {
@@ -12,10 +12,10 @@ function AddPost(props) {
   const submitUser = e => {
     e.preventDefault();
     axios
-      .post('http://localhost:5000/api/users/', addPost)
+      .post('http://localhost:5000/api/posts/', addPost)
       .then(res => {
         console.log(res)
-        props.setUserData([...props.userData, addPost])
+        props.setPostData([...props.postData, addPost])
         props.setIsAdding(false)
       })
       .catch(err => console.log(err))
@@ -33,16 +33,16 @@ function AddPost(props) {
       <form onSubmit={submitUser}>
         <input 
           type="text"
-          name="name"
-          value={addPost.name}
-          placeholder="name..."
+          name="title"
+          value={addPost.title}
+          placeholder="title..."
           onChange={onChange}
         />
         <input 
           type="text"
-          name="bio"
-          value={addPost.bio}
-          placeholder="bio..."
+          name="contents"
+          value={addPost.contents}
+          placeholder="contents..."
           onChange={onChange}
         />
         <button>Add User</button>
