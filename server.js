@@ -1,6 +1,5 @@
 const express = require('express');
 const cors = require('cors');
-const db = require('./data/db');
 
 const postRoutes = require('./routes/postRoutes');
 const commentRoutes = require('./routes/commentRoutes');

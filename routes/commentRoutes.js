@@ -2,6 +2,7 @@ const express = require('express');
 const db = require('../data/db');
 const router = express.Router();
 
+// GET COMMENT BY POST ID
 router.get('/:id/comments', (req, res) => {
   db.findPostComments(req.params.id)
     .then(post => {
@@ -10,7 +11,7 @@ router.get('/:id/comments', (req, res) => {
     })
     .catch(() => res.status(500).json({ error: "The comments information could not be retrieved." }))
 })
-
+// POST COMMENT TO POST ID
 router.post('/:id/comments', (req, res) => {
   const { post_id, text } = req.body;
   if (!text) res.status(400).json({ errorMessage: "Please provide text for the comment." })

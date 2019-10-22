@@ -2,6 +2,7 @@ const express = require('express');
 const db = require('../data/db');
 const router = express.Router();
 
+// GET POSTS
 router.get('/', (req, res) => {
   const sortField = req.query.sortBy || 'id';
   db.find()
@@ -11,7 +12,7 @@ router.get('/', (req, res) => {
     })
     .catch(() => res.status(500).json({ error: "The users information could not be retrieved." }))
 })
-
+// GET POST ID
 router.get('/:id', (req, res) => {
   db.findById(req.params.id)
     .then(post => {
@@ -20,7 +21,7 @@ router.get('/:id', (req, res) => {
     })
     .catch(() => res.status(500).json({ error: "The users information could not be retrieved." }))
 })
-
+// POST POSTS
 router.post('/', (req, res) => {
   const { title, contents } =  req.body;
 
@@ -31,7 +32,7 @@ router.post('/', (req, res) => {
       .then(post => res.status(201).json(post))
       .catch(() => res.status(500).json({ error: "There was an error while saving the post to the database" }))
 })
-
+// UPDATE ID
 router.put('/:id', (req, res) => {
   const { title, contents } =  req.body;
 
@@ -44,7 +45,7 @@ router.put('/:id', (req, res) => {
       })
       .catch(() => res.status(500).json({ error: "The post information could not be modified." }))
 })
-
+// DELETE ID
 router.delete('/:id', (req, res) => {
   db.remove(req.params.id)
     .then(post => {
