@@ -1,54 +1,52 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const initialPost = {
-  title: '',
-  contents: ''
-}
+function EditPost(props) {
+  const [editPost, setEditPost] = useState({
+    title: '',
+    contents: ''
+  })
 
-function AddPost(props) {
-  const [addPost, setAddPost] = useState(initialPost)
-
-  const submitPost = e => {
+  const submitEdit = e => {
     e.preventDefault();
     axios
-      .post('http://localhost:5000/api/posts/', addPost)
+      .put('http://localhost:5000/api/posts/', editPost)
       .then(res => {
         console.log(res)
-        props.setPostData([...props.postData, addPost])
-        props.setIsAdding(false)
+        props.setPostData([...props.postData, editPost])
+        props.setIsEditing(false)
       })
       .catch(err => console.log(err))
   }
 
   const onChange = e => {
-    setAddPost({
-      ...addPost,
+    setEditPost({
+      ...editPost,
       [e.target.name]: e.target.value
     })
   }
 
   return (
     <div>
-      <form onSubmit={submitPost}>
+      <form onSubmit={submitEdit}>
         <input 
           type="text"
           name="title"
-          value={addPost.title}
+          value={editPost.title}
           placeholder="title..."
           onChange={onChange}
         />
         <input 
           type="text"
           name="contents"
-          value={addPost.contents}
+          value={editPost.contents}
           placeholder="contents..."
           onChange={onChange}
         />
-        <button>Add Post</button>
+        <button>edit User</button>
       </form>
     </div>
   );
 }
 
-export default AddPost;
+export default EditPost;
