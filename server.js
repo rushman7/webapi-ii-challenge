@@ -13,22 +13,18 @@ server.get('/api/posts', (req, res) => {
 })
 
 server.get('/api/posts/:id', (req, res) => {
-  const id = req.params.id;
-
-  db.findById(id)
+  db.findById(req.params.id)
     .then(post => {
-      if (post) res.status(200).json(post)
+      if (post.length > 0) res.status(200).json(post)
       else res.status(404).json({ message: "The post with the specified ID does not exist." })
     })
     .catch(() => res.status(500).json({ error: "The users information could not be retrieved." }))
 })
 
 server.get('/api/posts/:id/comments', (req, res) => {
-  const id = req.params.id;
-
-  db.findPostComments(id)
+  db.findPostComments(req.params.id)
     .then(post => {
-      if (post) res.status(200).json(post)
+      if (post.length > 0) res.status(200).json(post)
       else res.status(404).json({ message: "The post with the specified ID does not exist." })
     })
     .catch(() => res.status(500).json({ error: "The comments information could not be retrieved." }))
@@ -66,6 +62,15 @@ server.put('/api/posts/:id', (req, res) => {
         else res.status(404).json({ message: "The post with the specified ID does not exist." })
       })
       .catch(() => res.status(500).json({ error: "The post information could not be modified." }))
+})
+
+server.delete('/api/posts/:id', (req, res) => {
+  db.remove(req.params.id)
+    .then(post => {
+      if (post) res.status(202).json({ message: `The post with the ID ${req.params.id} has been removed.` })
+      else res.status(404).json({ message: "The post with the specified ID does not exist." })
+    })
+    .catch(() => res.status(500).json({ error: "The post could not be removed" }))
 })
 
 server.listen(5000, () => console.log('Server running on http://localhost:5000'))
