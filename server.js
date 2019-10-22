@@ -12,6 +12,15 @@ server.get('/api/posts', (req, res) => {
     .catch(() => res.status(500).json({ error: "The users information could not be retrieved." }))
 })
 
+server.get('/api/posts/:id/comments', (req, res) => {
+  const id = req.params.id;
+  db.findPostComments(id)
+    .then(post => {
+      if (post) res.status(200).json(post)
+      else res.status(404).json({ message: "The post with the specified ID does not exist." })
+    })
+})
+
 server.post('/api/posts', (req, res) => {
   const { title, contents } =  req.body;
 
